@@ -85,7 +85,7 @@ case "$0" in
 	;;
 esac
 
-# default name to "openvpn" if guessing failed
+# default name to "cardano_node" if guessing failed
 # Trailing semicolon also for service(8)'s benefit:
 name="${name:-cardano_node}" ;
 name="${name##*/}"
