@@ -6,6 +6,7 @@ MAINTAINER=	arrowd@FreeBSD.org
 COMMENT=	Core component of the Cardano decentralized blockchain
 
 LICENSE=	APACHE20
+LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	ghc-8.10.7:lang/ghc810
 
