@@ -1,12 +1,13 @@
 PORTNAME=	ogmios
-PORTVERSION=	5.5.3
+PORTVERSION=	5.5.4
 DISTVERSIONPREFIX=v
 CATEGORIES=	net-p2p
 
 MAINTAINER=	arrowd@FreeBSD.org
 COMMENT=	WebSockets API to Cardano Ouroboros' mini-protocols
 
-LICENSE=	APACHE20
+LICENSE=	MPL20
+LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	ghc-8.10.7:lang/ghc810
 RUN_DEPENDS=	cardano-node:net-p2p/cardano-node
@@ -53,7 +54,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		HUnit-1.6.2.0 \
 		ListLike-4.7.6 \
 		MonadRandom-0.5.3_2 \
-		OneTuple-0.3.1_2 \
+		OneTuple-0.3.1_3 \
 		Only-0.1_1 \
 		QuickCheck-2.14.2 \
 		SHA-1.6.4.4 \
@@ -73,7 +74,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		asn1-encoding-0.9.6_2 \
 		asn1-parse-0.9.5 \
 		asn1-types-0.3.4 \
-		assoc-1.0.2_2 \
+		assoc-1.0.2_3 \
 		async-2.2.4_1 \
 		async-timer-0.2.0.0 \
 		attoparsec-0.13.2.5_2 \
@@ -101,7 +102,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		bsb-http-chunked-0.0.0.4_3 \
 		byteorder-1.0.4 \
 		bytestring-builder-0.10.8.2.0 \
-		cabal-doctest-1.0.9_1 \
+		cabal-doctest-1.0.9_2 \
 		call-stack-0.4.0 \
 		canonical-json-0.6.0.0_1 \
 		case-insensitive-1.2.1.0 \
@@ -130,7 +131,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		data-default-instances-containers-0.0.1 \
 		data-default-instances-dlist-0.0.1 \
 		data-default-instances-old-locale-0.0.1 \
-		data-fix-0.3.2_2 \
+		data-fix-0.3.2_3 \
 		dec-0.0.4_1 \
 		dense-linear-algebra-0.1.0.0 \
 		dependent-map-0.4.0.0 \
@@ -170,7 +171,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		generic-monoid-0.1.0.1_1 \
 		generic-random-1.5.0.1 \
 		generics-sop-0.5.1.2 \
-		ghc-byteorder-4.11.0.0.10_2 \
+		ghc-byteorder-4.11.0.0.10_3 \
 		graphviz-2999.20.1.0 \
 		gray-code-0.3.1 \
 		groups-0.5.3 \
@@ -182,7 +183,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		hedgehog-quickcheck-0.1.1_3 \
 		hostname-1.0 \
 		hourglass-0.2.12 \
-		hsc2hs-0.68.8 \
+		hsc2hs-0.68.8_1 \
 		hspec-2.9.4 \
 		hspec-core-2.9.4 \
 		hspec-discover-2.9.4 \
@@ -194,10 +195,10 @@ USE_CABAL=	Glob-0.10.2_3 \
 		http-types-0.12.3 \
 		http2-3.0.3 \
 		indexed-profunctors-0.1.1 \
-		indexed-traversable-0.1.2_1 \
+		indexed-traversable-0.1.2_2 \
 		indexed-traversable-instances-0.1.1_1 \
 		int-cast-0.2.0.0_4 \
-		integer-logarithms-1.0.3.1_2 \
+		integer-logarithms-1.0.3.1_3 \
 		invariant-0.5.5 \
 		io-streams-1.5.2.1_2 \
 		io-streams-haproxy-1.0.1.0_5 \
@@ -245,7 +246,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		old-time-1.1.0.3_2 \
 		optparse-applicative-0.17.0.0 \
 		optparse-generic-1.4.7_2 \
-		parallel-3.2.2.0_4 \
+		parallel-3.2.2.0_5 \
 		parser-combinators-1.3.0 \
 		parsers-0.12.10_2 \
 		partial-order-0.2.0.0 \
@@ -254,7 +255,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		pcre-light-0.4.1.0 \
 		pem-0.2.4 \
 		pipes-4.3.16_3 \
-		polyparse-1.13_4 \
+		polyparse-1.13_5 \
 		pretty-show-1.10 \
 		pretty-simple-4.0.0.0 \
 		prettyprinter-1.7.1 \
@@ -281,10 +282,10 @@ USE_CABAL=	Glob-0.10.2_3 \
 		resourcet-1.2.4.3_1 \
 		safe-0.3.19 \
 		safe-exceptions-0.1.7.2 \
-		scientific-0.3.7.0_2 \
+		scientific-0.3.7.0_3 \
 		secp256k1-haskell-0.6.0 \
 		selective-0.4.2 \
-		semialign-1.2.0.1_2 \
+		semialign-1.2.0.1_3 \
 		semigroupoids-5.3.7 \
 		semigroups-0.20 \
 		serialise-0.2.4.0_1 \
@@ -298,7 +299,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		some-1.0.2 \
 		sop-core-0.5.0.2 \
 		split-0.2.3.4_2 \
-		splitmix-0.1.0.4 \
+		splitmix-0.1.0.4_1 \
 		statistics-0.16.0.1 \
 		statistics-linreg-0.3 \
 		streaming-0.2.3.1 \
@@ -322,19 +323,19 @@ USE_CABAL=	Glob-0.10.2_3 \
 		temporary-1.3 \
 		terminal-size-0.3.2.1 \
 		testing-type-modifiers-0.1.0.1 \
-		text-short-0.1.5 \
+		text-short-0.1.5_1 \
 		tf-random-0.5 \
 		th-abstraction-0.4.3.0 \
 		th-compat-0.1.3_1 \
 		th-expand-syns-0.4.9.0 \
 		th-extras-0.0.0.6 \
 		th-lift-0.8.2_2 \
-		th-lift-instances-0.1.19 \
+		th-lift-instances-0.1.19_1 \
 		th-orphans-0.13.12_2 \
 		th-reify-many-0.1.10 \
 		th-utilities-0.2.4.3 \
-		these-1.1.1.1_5 \
-		time-compat-1.9.6.1_3 \
+		these-1.1.1.1_6 \
+		time-compat-1.9.6.1_4 \
 		time-manager-0.0.0 \
 		time-units-1.0.0 \
 		tls-1.5.7 \
@@ -342,7 +343,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		transformers-compat-0.6.6 \
 		transformers-except-0.1.2 \
 		tree-diff-0.2.1.1_2 \
-		type-equality-1_3 \
+		type-equality-1_4 \
 		typed-process-0.2.8.0_1 \
 		typerep-map-0.5.0.0 \
 		unbounded-delays-0.1.1.1 \
@@ -353,13 +354,13 @@ USE_CABAL=	Glob-0.10.2_3 \
 		unliftio-core-0.1.2.0_3 \
 		unordered-containers-0.2.16.0 \
 		utf8-string-1.0.2 \
-		uuid-types-1.0.5_2 \
+		uuid-types-1.0.5_3 \
 		validation-selective-0.1.0.1 \
-		vault-0.3.1.5_1 \
+		vault-0.3.1.5_2 \
 		vector-0.12.3.1_2 \
 		vector-algorithms-0.8.0.4_2 \
 		vector-binary-instances-0.2.5.2_2 \
-		vector-th-unbox-0.2.2_1 \
+		vector-th-unbox-0.2.2_3 \
 		void-0.7.3 \
 		wai-3.2.3 \
 		wai-app-static-3.1.7.2_1 \
