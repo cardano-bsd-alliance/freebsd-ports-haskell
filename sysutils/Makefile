@@ -353,6 +353,7 @@
     SUBDIR += f2
     SUBDIR += f3
     SUBDIR += facter
+    SUBDIR += fakertc
     SUBDIR += fand
     SUBDIR += fanout
     SUBDIR += fatback
@@ -793,6 +794,7 @@
     SUBDIR += ncdu
     SUBDIR += ndmpd
     SUBDIR += neofetch
+    SUBDIR += nerdctl
     SUBDIR += netevent
     SUBDIR += nfcutils
     SUBDIR += nfs-over-tls
@@ -1056,6 +1058,7 @@
     SUBDIR += py-dlipower
     SUBDIR += py-docker
     SUBDIR += py-drmaa
+    SUBDIR += py-elf_diff
     SUBDIR += py-execnet
     SUBDIR += py-filelike
     SUBDIR += py-filelock
