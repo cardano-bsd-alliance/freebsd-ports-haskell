@@ -246,7 +246,7 @@ cardano_node_start()
         echo "Failed to start ${name}: jail creation error"
         return 1
     fi
-    cd $_home && /usr/sbin/daemon -p $pidfile \
+    cd $_home && /usr/sbin/daemon -p $pidfile -S -T cardano-node \
         ${jail_cmd} command=/bin/cardano-node ${flags} 2>&1 > /dev/null
     ln -s "${jail_root}/${jail_socket}" "${_socket}"
 }
