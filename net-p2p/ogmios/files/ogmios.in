@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # PROVIDE: ogmios
-# REQUIRE: DAEMON cardano_node
+# REQUIRE: DAEMON
 # KEYWORD: shutdown
 #
 # Add the following lines to /etc/rc.conf to enable this service:
@@ -74,12 +74,6 @@ sanity_check()
         echo "You might want to add correct path to cardano-node config file"
         exit 1
     fi
-    if [ ! -d `dirname ${ogmios_cnode_socket}` ]
-    then
-        echo "The directory for the socket file ${ogmios_cnode_socket} is missing"
-        echo "Cardano-node is not running and/or wrong path specified for /jail/socket/ dir"
-        exit 1
-    fi
     return 0
 }
 
@@ -100,6 +94,8 @@ create_jail()
 
     cp "$command" "${ogmios_jail}/bin/"
     ldd "$command" | cut -s -d " " -f 3 | grep -E '^(/lib|/usr)' | sort -u | xargs -I % cp % "${ogmios_jail}/lib/"
+#    TODO: we have to set suid because of the same chmod call in the cardano_node rc script
+    chmod +s "${ogmios_jail}/bin/ogmios"
     cp /libexec/ld-elf.so.1 "${ogmios_jail}/libexec"
 
     mount_nullfs -o ro `dirname ${ogmios_cnode_config}` "${ogmios_jail}/config_dir"
@@ -139,6 +135,13 @@ ogmios_prestart()
 ogmios_start()
 {
     check_startmsgs && echo "Starting ${name}."
+
+
+    while ! nc -NU ${ogmios_cnode_socket} < /dev/null > /dev/null
+    do
+        echo "Waiting for cardano-node socket to appear in ${ogmios_cnode_socket}"
+        sleep 10s
+    done
 
     create_jail
     if [ "$?" != "0" ]
