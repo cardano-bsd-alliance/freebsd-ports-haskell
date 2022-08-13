@@ -1,4 +1,4 @@
-bin/cardano-db-sync-pgsql-setup.sh
+bin/cardano-db-sync-pgsql-setup
 %%DATADIR%%/schema/migration-1-0000-20190730.sql
 %%DATADIR%%/schema/migration-1-0001-20190730.sql
 %%DATADIR%%/schema/migration-1-0002-20190912.sql

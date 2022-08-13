@@ -21,12 +21,12 @@
 #
 # Advanced settings that usually don't need to be changed for simple usage cases:
 #
-# cardano_db_sync_pgpass:          An absolute path to the PostgreSQL ".pgpass" connection file. 
+# cardano_db_sync_pgpass:          An absolute path to the PostgreSQL ".pgpass" connection file.
 #                               Default: "${cardano_db_sync_home}/${cardano_db_sync_net}-configs/.pgpass"
 #
 # cardano_db_sync_config:          An absolute path to the db-sync configuration JSON file.
 #                               Default: "${cardano_db_sync_home}/${cardano_db_sync_net}-configs/db-sync-config.json"
-# 
+#
 # cardano_db_sync_schema:          An absolute path to the db-sync schema directory.
 #                               Default: "%%LOCALBASE%%/share/cardano-db-sync/schema"
 #
@@ -87,12 +87,6 @@ sanity_check()
         echo "Did you setup postgresql database access?"
         exit 1
     fi
-    if [ ! -d `dirname ${cardano_db_sync_cnode_socket}` ]
-    then
-        echo "The directory for the socket file ${cardano_db_sync_cnode_socket} is missing"
-        echo "Cardano-node is not running and/or wrong path specified for /jail/socket/ dir"
-        exit 1
-    fi
     return 0
 }
 
@@ -113,7 +107,14 @@ cardano_db_sync_prestart()
 cardano_db_sync_start()
 {
     check_startmsgs && echo "Starting ${name}."
-    cd $cardano_db_sync_home && /usr/bin/env PATH=$PATH:%%LOCALBASE%%/bin /usr/sbin/daemon -p $pidfile -o ${logfile} \
+
+    while ! nc -NU ${cardano_db_sync_cnode_socket} < /dev/null > /dev/null
+    do
+        echo "Waiting for cardano-node socket to appear in ${cardano_db_sync_cnode_socket}"
+        sleep 10s
+    done
+
+    cd $cardano_db_sync_home && /usr/bin/env PATH=$PATH:%%LOCALBASE%%/bin /usr/sbin/daemon -p $pidfile -S -T cardano-db-sync \
         ${command} ${flags} 2>&1 > /dev/null
 }
 

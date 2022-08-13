@@ -1,6 +1,9 @@
 PORTNAME=	cardano-db-sync
-PORTVERSION=	13.0.2
+PORTVERSION=	13.0.4
 CATEGORIES=	net-p2p databases
+
+PATCH_SITES=	https://arrowd.name/:freebsd_compat
+PATCHFILES=	1210.patch:freebsd_compat
 
 MAINTAINER=	arrowd@FreeBSD.org
 COMMENT=	PostgreSQL-driven Cardano blockchain data tool
@@ -8,7 +11,8 @@ COMMENT=	PostgreSQL-driven Cardano blockchain data tool
 LICENSE=	APACHE20
 
 BUILD_DEPENDS=	ghc-8.10.7:lang/ghc810
-RUN_DEPENDS=	cardano-node:net-p2p/cardano-node
+RUN_DEPENDS=	cardano-node:net-p2p/cardano-node \
+		bash:shells/bash
 
 USES=		autoreconf:build cabal gmake libtool pkgconfig pgsql:14
 
@@ -18,22 +22,23 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	input-output-hk
 
 GH_TUPLE=	HeinrichApfelmus:threepenny-gui:e3bb8283fc7d2e8aa374eea29426002e8dcd67a8:threepenny_gui/dist-newstyle/src/threepenn_-92d8c1b5dcc24f1d \
+		haskell-works:hw-aeson:6dc309ff4260c71d9a18c220cbae8aa1dfe2a02e:hw_aeson/dist-newstyle/src/hw-aeson-446b671374758b54 \
 		input-output-hk:Win32-network:3825d3abf75f83f406c1f7161883c438dac7277d:Win32_network/dist-newstyle/src/Win32-net_-5b9448ed2f179086 \
 		input-output-hk:cardano-base:0f3a867493059e650cda69e20a5cbf1ace289a57:cardano_base/dist-newstyle/src/cardano-b_-c8db9876882556ed \
 		input-output-hk:cardano-config:e9de7a2cf70796f6ff26eac9f9540184ded0e4e6:cardano_config/dist-newstyle/src/cardano-c_-cddf0cd12b1de19c \
 		input-output-hk:cardano-crypto:f73079303f663e028288f9f4a9e08bcca39a923e:cardano_crypto/dist-newstyle/src/cardano-c_-253fd88117badd8f \
-		input-output-hk:cardano-ledger:ebcf1a8936dd84de0182d54004473f4ce66c7923:cardano_ledger/dist-newstyle/src/cardano-l_-516df916d2b8a647 \
-		input-output-hk:cardano-node:7612a245a6e2c51d0f1c3e0d65d7fe9363850043:cardano_node/dist-newstyle/src/cardano-n_-156536db9a177fb0 \
+		input-output-hk:cardano-ledger:c7c63dabdb215ebdaed8b63274965966f2bf408f:cardano_ledger/dist-newstyle/src/cardano-l_-516df916d2b8a647 \
+		input-output-hk:cardano-node:950c4e222086fed5ca53564e642434ce9307b0b9:cardano_node/dist-newstyle/src/cardano-n_-156536db9a177fb0 \
 		input-output-hk:cardano-prelude:bb4ed71ba8e587f672d06edf9d2e376f4b055555:cardano_prelude/dist-newstyle/src/cardano-p_-cae013aee062332a \
 		input-output-hk:ekg-forward:297cd9db5074339a2fb2e5ae7d0780debb670c63:ekg_forward/dist-newstyle/src/ekg-forwa_-439c40ba89351585 \
 		input-output-hk:flat:ee59880f47ab835dbd73bea0847dab7869fc20d8:flat/dist-newstyle/src/flat-9eba9ae2d4d970a \
 		input-output-hk:goblins:cde90a2b27f79187ca8310b6549331e59595e7ba:goblins/dist-newstyle/src/goblins-67efee8d68d79164 \
-		input-output-hk:hedgehog-extras:967d79533c21e33387d0227a5f6cc185203fe658:hedgehog_extras/dist-newstyle/src/hedgehog-_-586c3da22a5ce29b \
+		input-output-hk:hedgehog-extras:714ee03a5a786a05fc57ac5d2f1c2edce4660d85:hedgehog_extras/dist-newstyle/src/hedgehog-_-586c3da22a5ce29b \
 		input-output-hk:io-sim:f4183f274d88d0ad15817c7052df3a6a8b40e6dc:io_sim/dist-newstyle/src/io-sim-5409b7204b6dc065 \
 		input-output-hk:iohk-monitoring-framework:066f7002aac5a0efc20e49643fea45454f226caa:iohk_monitoring_framework/dist-newstyle/src/iohk-moni_-1defcf7452717dc5 \
 		input-output-hk:optparse-applicative:7497a29cb998721a9068d5725d49461f2bba0e7a:optparse_applicative/dist-newstyle/src/optparse-_-3cd678a226e0281a \
 		input-output-hk:ouroboros-network:cb9eba406ceb2df338d8384b35c8addfe2067201:ouroboros_network/dist-newstyle/src/ouroboros_-e51b1e265e7bb521 \
-		input-output-hk:plutus:a3fba9f4e776c38bc54cb9a1c1cae82d2338b718:plutus/dist-newstyle/src/plutus-5e27fa0483bd0166 \
+		input-output-hk:plutus:a56c96598b4b25c9e28215214d25189331087244:plutus/dist-newstyle/src/plutus-5e27fa0483bd0166 \
 		input-output-hk:typed-protocols:181601bc3d9e9d21a671ce01e0b481348b3ca104:typed_protocols/dist-newstyle/src/typed-pro_-3f57698e3fbfd050 \
 		vshabanov:ekg-json:00ebe7211c981686e65730b7144fbf5350462608:ekg_json/dist-newstyle/src/ekg-json-e51d7dff12d02a95
 
@@ -54,7 +59,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		HUnit-1.6.2.0 \
 		ListLike-4.7.6 \
 		MonadRandom-0.5.3_2 \
-		OneTuple-0.3.1_2 \
+		OneTuple-0.3.1_3 \
 		Only-0.1_1 \
 		QuickCheck-2.14.2 \
 		SHA-1.6.4.4 \
@@ -74,8 +79,8 @@ USE_CABAL=	Glob-0.10.2_3 \
 		asn1-encoding-0.9.6_2 \
 		asn1-parse-0.9.5 \
 		asn1-types-0.3.4 \
-		assoc-1.0.2_2 \
-		async-2.2.4_1 \
+		assoc-1.0.2_3 \
+		async-2.2.4_2 \
 		async-timer-0.1.4.1 \
 		atomic-primops-0.8.4 \
 		attoparsec-0.13.2.5_2 \
@@ -102,7 +107,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		bsb-http-chunked-0.0.0.4_3 \
 		byteorder-1.0.4 \
 		bytestring-builder-0.10.8.2.0 \
-		cabal-doctest-1.0.9_1 \
+		cabal-doctest-1.0.9_2 \
 		call-stack-0.4.0 \
 		canonical-json-0.6.0.0_1 \
 		case-insensitive-1.2.1.0 \
@@ -132,7 +137,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		data-default-instances-containers-0.0.1 \
 		data-default-instances-dlist-0.0.1 \
 		data-default-instances-old-locale-0.0.1 \
-		data-fix-0.3.2_2 \
+		data-fix-0.3.2_3 \
 		dec-0.0.4_1 \
 		dense-linear-algebra-0.1.0.0 \
 		dependent-map-0.4.0.0 \
@@ -180,7 +185,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		hedgehog-quickcheck-0.1.1_3 \
 		hostname-1.0 \
 		hourglass-0.2.12 \
-		hsc2hs-0.68.8 \
+		hsc2hs-0.68.8_1 \
 		hspec-2.9.4 \
 		hspec-core-2.9.4 \
 		hspec-discover-2.9.4 \
@@ -194,11 +199,11 @@ USE_CABAL=	Glob-0.10.2_3 \
 		http-types-0.12.3 \
 		http2-3.0.3 \
 		indexed-profunctors-0.1.1 \
-		indexed-traversable-0.1.2_1 \
+		indexed-traversable-0.1.2_2 \
 		indexed-traversable-instances-0.1.1_1 \
 		insert-ordered-containers-0.2.5.1_2 \
 		int-cast-0.2.0.0_4 \
-		integer-logarithms-1.0.3.1_2 \
+		integer-logarithms-1.0.3.1_3 \
 		invariant-0.5.5 \
 		io-streams-1.5.2.1_2 \
 		io-streams-haproxy-1.0.1.0_5 \
@@ -247,7 +252,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		optics-th-0.4_1 \
 		optparse-applicative-0.17.0.0 \
 		optparse-generic-1.4.7_2 \
-		parallel-3.2.2.0_4 \
+		parallel-3.2.2.0_5 \
 		parser-combinators-1.3.0 \
 		parsers-0.12.10_2 \
 		partial-order-0.2.0.0 \
@@ -285,10 +290,10 @@ USE_CABAL=	Glob-0.10.2_3 \
 		resourcet-1.2.4.3_1 \
 		safe-0.3.19 \
 		safe-exceptions-0.1.7.2 \
-		scientific-0.3.7.0_2 \
+		scientific-0.3.7.0_3 \
 		secp256k1-haskell-0.6.0 \
 		selective-0.4.2 \
-		semialign-1.2.0.1_2 \
+		semialign-1.2.0.1_3 \
 		semigroupoids-5.3.7 \
 		semigroups-0.20 \
 		serialise-0.2.4.0_1 \
@@ -307,7 +312,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		some-1.0.2 \
 		sop-core-0.5.0.2 \
 		split-0.2.3.4_2 \
-		splitmix-0.1.0.4 \
+		splitmix-0.1.0.4_1 \
 		statistics-0.16.0.1 \
 		statistics-linreg-0.3 \
 		stm-chans-3.0.0.6 \
@@ -334,19 +339,19 @@ USE_CABAL=	Glob-0.10.2_3 \
 		terminal-size-0.3.2.1 \
 		testing-type-modifiers-0.1.0.1 \
 		text-ansi-0.1.1_3 \
-		text-short-0.1.5 \
+		text-short-0.1.5_1 \
 		tf-random-0.5 \
 		th-abstraction-0.4.3.0 \
 		th-compat-0.1.3_1 \
 		th-expand-syns-0.4.9.0 \
 		th-extras-0.0.0.6 \
 		th-lift-0.8.2_2 \
-		th-lift-instances-0.1.19 \
+		th-lift-instances-0.1.19_1 \
 		th-orphans-0.13.12_2 \
 		th-reify-many-0.1.10 \
 		th-utilities-0.2.4.3 \
-		these-1.1.1.1_5 \
-		time-compat-1.9.6.1_3 \
+		these-1.1.1.1_6 \
+		time-compat-1.9.6.1_4 \
 		time-manager-0.0.0 \
 		time-units-1.0.0 \
 		tls-1.5.7 \
@@ -354,7 +359,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		transformers-compat-0.6.6 \
 		transformers-except-0.1.2 \
 		tree-diff-0.2.1.1_2 \
-		type-equality-1_3 \
+		type-equality-1_4 \
 		typed-process-0.2.8.0_1 \
 		typerep-map-0.5.0.0 \
 		unagi-chan-0.4.1.4 \
@@ -366,13 +371,13 @@ USE_CABAL=	Glob-0.10.2_3 \
 		unliftio-core-0.2.0.1_2 \
 		unordered-containers-0.2.16.0 \
 		utf8-string-1.0.2 \
-		uuid-types-1.0.5_2 \
+		uuid-types-1.0.5_3 \
 		validation-selective-0.1.0.1 \
-		vault-0.3.1.5_1 \
+		vault-0.3.1.5_2 \
 		vector-0.12.3.1_2 \
 		vector-algorithms-0.8.0.4_2 \
 		vector-binary-instances-0.2.5.2_2 \
-		vector-th-unbox-0.2.2_1 \
+		vector-th-unbox-0.2.2_3 \
 		void-0.7.3 \
 		wai-3.2.3 \
 		wai-app-static-3.1.7.2_1 \
@@ -419,8 +424,8 @@ pre-build:
 	${MV} ${LIBS_PREFIX}${PREFIX}/lib/pkgconfig/libsecp256k1.pc ${LIBS_PREFIX}${PREFIX}/libdata/pkgconfig/libsecp256k1.pc
 
 post-install:
-	${MV} ${WRKSRC}/scripts/postgresql-setup.sh ${WRKSRC}/scripts/cardano-db-sync-pgsql-setup.sh
-	${INSTALL_SCRIPT} ${WRKSRC}/scripts/cardano-db-sync-pgsql-setup.sh ${STAGEDIR}${PREFIX}/bin
+	${MV} ${WRKSRC}/scripts/postgresql-setup.sh ${WRKSRC}/scripts/cardano-db-sync-pgsql-setup
+	${INSTALL_SCRIPT} ${WRKSRC}/scripts/cardano-db-sync-pgsql-setup ${STAGEDIR}${PREFIX}/bin
 	${MKDIR} ${STAGEDIR}${DATADIR}/schema
 	cd ${WRKSRC}/schema && ${COPYTREE_SHARE} . ${STAGEDIR}${DATADIR}/schema
 
