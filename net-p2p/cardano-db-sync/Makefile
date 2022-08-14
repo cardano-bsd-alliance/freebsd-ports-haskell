@@ -400,7 +400,7 @@ USE_CABAL=	Glob-0.10.2_3 \
 		zlib-bindings-0.1.1.5_2
 
 CABAL_PROJECT=		append
-EXECUTABLES=		cardano-db-sync cardano-db-tool
+CABAL_EXECUTABLES=	cardano-db-sync cardano-db-tool
 
 post-patch:
 	${REINPLACE_CMD} -e 's/$$(gitRevFromGit)/"${CARDANO_DB_SYNC_HASH}"/' \

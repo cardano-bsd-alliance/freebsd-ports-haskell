@@ -391,7 +391,7 @@ USE_CABAL=	Diff-0.4.1 \
 		zlib-bindings-0.1.1.5_2
 
 CABAL_PROJECT=		append
-EXECUTABLES=		cardano-node cardano-cli cardano-submit-api cardano-tracer
+CABAL_EXECUTABLES=	cardano-node cardano-cli cardano-submit-api cardano-tracer
 
 post-patch:
 	${REINPLACE_CMD} -e 's/$$(gitRevFromGit)/"${CARDANO_NODE_HASH}"/' \
